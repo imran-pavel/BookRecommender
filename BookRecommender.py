@@ -24,18 +24,12 @@ eligibleUsers = numberOfRatingsOfEachUser[numberOfRatingsOfEachUser >= minNumber
 filteringCondition = allRatings["user_id"].apply(lambda x: x in eligibleUsers)
 allRatings = allRatings[filteringCondition]
 
-
-
 contentMatrix = allRatings.pivot(index="user_id", columns="book_id", values="rating")
-
 
 userIDs = allRatings['user_id']
 userIDs.drop_duplicates(inplace=True)
 userIDs = userIDs.sort_values()
 userIDs = userIDs.reset_index(drop=True)
-
-
-
 
 
 
@@ -50,8 +44,6 @@ def getNullAndNonNullColumnsLists(user, dataFrame):   # Get list of non null and
         else:
             nullIndexes.append(book)
     return (nonNullIndexes, nullIndexes)
-    
-    
     
     
     
@@ -147,10 +139,6 @@ def recommendBooks(targetUser):
     else:
         print("Content matrix is not rich enough for this user to generate ratings for any of his unrated items. Try this user again later after some iterations of recommendations.")
         
-
-
-
-
 
 
 while True:
