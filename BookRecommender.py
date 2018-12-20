@@ -4,13 +4,13 @@ import math
 from random import *
 
 
-minNumberOfRatingsForEachBook = 100        # Leaves us with 6247 book items
-minNumberOfRatingsForEachUser = 10         # Leaves us with 16206 users
-
-
 allRatings = pd.read_csv("ratings.csv")
 books = pd.read_csv("books.csv")
 allRatings = allRatings.drop_duplicates(subset=['book_id', 'user_id'])
+
+
+minNumberOfRatingsForEachBook = 100        # Leaves us with 6247 book items
+minNumberOfRatingsForEachUser = 10         # Leaves us with 16206 users
 
 
 numberOfRatingsOfEachBook = allRatings["book_id"].value_counts()
@@ -24,13 +24,14 @@ eligibleUsers = numberOfRatingsOfEachUser[numberOfRatingsOfEachUser >= minNumber
 filteringCondition = allRatings["user_id"].apply(lambda x: x in eligibleUsers)
 allRatings = allRatings[filteringCondition]
 
+
 contentMatrix = allRatings.pivot(index="user_id", columns="book_id", values="rating")
+
 
 userIDs = allRatings['user_id']
 userIDs.drop_duplicates(inplace=True)
 userIDs = userIDs.sort_values()
 userIDs = userIDs.reset_index(drop=True)
-
 
 
 def getNullAndNonNullColumnsLists(user, dataFrame):   # Get list of non null and null columns of the 'user' . Columns represents books. This function will actually give way for a user which books have ratings and which do not.
@@ -141,6 +142,7 @@ def recommendBooks(targetUser):
         
 
 
+
 while True:
     print()
     print()
@@ -154,7 +156,7 @@ while True:
         targetUser = userIDs[randrange(0, len(userIDs))]
         recommendBooks(targetUser)
     elif int(selectedOption) == 2:
-        print(userIDs)
+        print(list(userIDs))
         print()
         recommendBooks(int(input("Choose and enter a user id from above to get recommendation for him: ")))
     elif int(selectedOption) == 3:
